@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Parcelador web (Leaflet) - v4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Leaflet-Geoman -->
+  <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@2.15.0/dist/leaflet-geoman.css"/>
+  <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@2.15.0/dist/leaflet-geoman.min.js"></script>
+
+  <!-- Proj4 -->
+  <script src="https://unpkg.com/proj4@2.9.2/dist/proj4.js"></script>
+
+  <!-- polygon-clipping -->
+  <script src="https://unpkg.com/polygon-clipping@0.15.7/dist/polygon-clipping.umd.js"></script>
+
+  <!-- shp-write -->
+  <script src="https://unpkg.com/shp-write@0.3.2/shpwrite.js"></script>
+
+  <!-- JSTS -->
+  <script src="https://unpkg.com/jsts@2.11.3/dist/jsts.min.js"></script>
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+<div id="corner-logo">
+  <img src="https://gbif.es/wp-content/uploads/2023/05/Logo-IRNAS.png"
+       alt="IRNAS logo" />
+</div>
+
+<div id="app">
+  <div id="map"></div>
+
+  <aside id="panel">
+    <h2>Parcelador (web) v4</h2>
+
+    <div class="hint">
+      - Dibuja un polígono (barra izquierda).<br/>
+      - <b>Medir</b>: mide una línea y te muestra la distancia.<br/>
+      - <b>Borrar</b>: reinicia para empezar de cero.
+    </div>
+
+    <div class="row grid3">
+      <button class="primary" id="btnMeasure">Medir distancia</button>
+      <button id="btnParcelDist">Distancia entre parcelas</button>
+      <button id="btnClear">Borrar</button>
+    </div>
+    <div class="row">
+      <button id="btnMoveBlock">Mover bloque de parcelas</button>
+      <div class="hint">Actívalo y arrastra el punto de control que aparece sobre las parcelas.</div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="row">
+      <label>Mapa base</label>
+      <select id="basemap">
+        <option value="osm">OpenStreetMap</option>
+        <option value="esri">Satélite (Esri World Imagery)</option>
+        <option value="custom">XYZ personalizado (URL)</option>
+      </select>
+    </div>
+
+    <div class="row" id="customRow" style="display:none;">
+      <label>URL XYZ (ej.: https://.../{z}/{x}/{y}.png )</label>
+      <input id="customUrl" type="text" placeholder="Pega aquí una plantilla XYZ" />
+      <button id="btnAddCustom">Aplicar XYZ</button>
+      <div class="hint">Si tu orto requiere token, inclúyelo en la URL.</div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="row grid2">
+      <div>
+        <label>Ancho (m)</label>
+        <input id="w" type="number" value="20" min="0" step="0.1"/>
+      </div>
+      <div>
+        <label>Alto (m)</label>
+        <input id="h" type="number" value="40" min="0" step="0.1"/>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>Separación entre parcelas (m)</label>
+      <input id="gap" type="number" value="2" min="0" step="0.1"/>
+    </div>
+
+    <div class="row">
+      <label>Retranqueo desde el borde exterior (m)</label>
+      <input id="setback" type="number" value="3" min="0" step="0.1"/>
+    </div>
+
+    <div class="row">
+      <label>Orientación</label>
+      <select id="angleMode">
+        <option value="auto">Auto-orientación</option>
+        <option value="manual">Manual</option>
+      </select>
+    </div>
+
+    <div class="row grid2">
+      <div>
+        <label>Ángulo manual (°)</label>
+        <input id="angle" type="number" value="0" step="1"/>
+        <input id="angleSlider" type="range" min="0" max="179" value="0" step="1" />
+        <div class="hint">Desliza para girar: <span id="angleReadout">0</span>°</div>
+      </div>
+      <div>
+        <label>Paso búsqueda auto (°)</label>
+        <input id="autoStep" type="number" value="5" min="1" step="1"/>
+      </div>
+    </div>
+
+    <div class="row grid2">
+      <div>
+        <label>Nº parcelas mínimo</label>
+        <input id="minCount" type="number" value="0" min="0" step="1"/>
+      </div>
+      <div>
+        <label>Nº parcelas máximo</label>
+        <input id="maxCount" type="number" value="0" min="0" step="1"/>
+      </div>
+    </div>
+    <div class="hint">Pon 0 para “sin límite”. En Auto-orientación intentará respetarlo.</div>
+
+    <div class="row">
+      <label>Área mínima por parcela (m²)</label>
+      <input id="minArea" type="number" value="50" min="0" step="1"/>
+    </div>
+
+    <button class="primary" id="btnGen">Generar parcelas</button>
+    <button id="btnGeoJSON" disabled>Descargar GeoJSON</button>
+    <button id="btnSHP" disabled>Descargar SHP (ZIP)</button>
+
+    <div class="row stats" id="stats" style="display:none;"></div>
+  </aside>
+</div>
+
+<script src="./js/basemaps.js"></script>
+<script src="./js/geometry.js"></script>
+<script src="./js/export.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
