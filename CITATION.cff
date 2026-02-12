@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it."
+title: "Parcelador web"
+type: software
+authors:
+  - family-names: "González Peñaloza"
+    given-names: "Félix"
+    affiliation: "Institute of Natural Resources and Agrobiology of Seville (IRNAS-CSIC)"
+  - family-names: "González Pérez"
+    given-names: "José Antonio"
+    affiliation: "Institute of Natural Resources and Agrobiology of Seville (IRNAS-CSIC)"
+  - family-names: "de la Rosa"
+    given-names: "José María"
+    affiliation: "Institute of Natural Resources and Agrobiology of Seville (IRNAS-CSIC)"
+  - family-names: "Campos"
+    given-names: "Paloma"
+    affiliation: "Institute of Natural Resources and Agrobiology of Seville (IRNAS-CSIC)"
+  - family-names: "García-Ruiz"
+    given-names: "Olaya"
+    affiliation: "Institute of Natural Resources and Agrobiology of Seville (IRNAS-CSIC)"
+license: "MIT"
+repository-code: "https://github.com/TU_USUARIO/TU_REPOSITORIO"
+url: "https://TU_USUARIO.github.io/TU_REPOSITORIO/"
